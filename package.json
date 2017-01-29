@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/alvinwan/jumpeee#readme",
   "dependencies": {
-    "cocos2d": "^0.1.1",
     "express": "^4.10.2",
     "socketio": "^1.0.0"
   },
