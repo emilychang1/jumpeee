@@ -6,13 +6,12 @@ var format = require('string-format')
 var swig = require('swig');
 
 URL_FORMAT = '/g/{game_hash}'
-
-var swig = new swig.Swig();
-app.engine('html', swig.renderFile);
-app.set('view engine', 'html');
-
 format.extend(String.prototype, {})
 
+var swig = new swig.Swig();
+var players = 0;
+app.engine('html', swig.renderFile);
+app.set('view engine', 'html');
 app.use(express.static('public'));
 
 app.get('/', function(req, res) {
@@ -24,15 +23,24 @@ app.get(URL_FORMAT.format({game_hash: ':id'}), function(req , res){
 });
 
 io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
-  });
+    players += 1;
+    console.log('Players:', players);
+    io.emit('new player', players);
+
+    socket.on('chat message', function(msg){
+        io.emit('chat message', msg);
+    });
+
+    socket.on('disconnect', function() {
+        players -= 1;
+        console.log('Players:', players);
+        io.emit('new player', players);
+    });
 });
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
 });
-
 
 // http://stackoverflow.com/a/1349426/4855984
 function makeid() {
