@@ -4,6 +4,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var format = require('string-format')
 var swig = require('swig');
+var bodyParser = require('body-parser');
 
 URL_FORMAT = '/g/{game_hash}'
 format.extend(String.prototype, {})
@@ -13,9 +14,22 @@ var players = 0;
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get('/', function(req, res) {
   res.render('index', {start_url: URL_FORMAT.format({game_hash: makeid()})});
+});
+
+app.get('/join', function(req, res) {
+    res.render('join')
+});
+
+app.post('/join', function(req, res) {
+    res.writeHead(301, {
+      Location: "http" + (req.socket.encrypted ? "s" : "") + "://" +
+         req.headers.host + URL_FORMAT.format({game_hash: req.body.game_hash})
+    });
+    res.end();
 });
 
 app.get(URL_FORMAT.format({game_hash: ':id'}), function(req , res){
