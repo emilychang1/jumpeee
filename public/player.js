@@ -4,12 +4,12 @@
  */
 
 
-JUMP_DURATION = 500;
-JUMP_SCALING = 2;
-
-
 function Player(id) {
-    self.id = id
+    this.id = id
+
+    var JUMP_DURATION = 500;
+    var JUMP_MAX_HEIGHT = 75;
+
     var isJumping = false;
 	var timeFinish;
 	var timeStart;
@@ -40,20 +40,22 @@ function Player(id) {
 		}
     }
 
-    this.updateJump = function(time){
+    this.updateJump = function(time) {
 		if(time >= timeFinish) {
 			isJumping = false;
 			y = yStart;
 			return;
 		}
-		var height = -((timeFinish - timeStart)/2 + timeStart - time)/100 * 2;
-		console.log(y, y + height);
-		y = y + height;
+		var apex = {y: yStart - JUMP_MAX_HEIGHT, x: (timeFinish - timeStart)/2}
+		var coeff = (yStart - apex.y) / Math.pow(apex.x, 2);
+		var t = time - timeStart;
+
+		y = coeff * Math.pow(t - apex.x, 2) + apex.y;
 	}
 
 	this.to_bundle = function() {
         return {
-            id: self.id,
+            id: this.id,
             isJumping: isJumping,
             timeFinish: timeFinish,
             timeStart: timeStart,
@@ -62,7 +64,7 @@ function Player(id) {
 	}
 
 	this.from_bundle = function(bundle) {
-	    self.id = bundle.id;
+	    this.id = bundle.id;
 	    isJumping = bundle.isJumping;
 	    timeFinish = bundle.timeFinish;
 	    timeStart = bundle.timeStart;

@@ -41,30 +41,19 @@ io.on('connection', function(socket){
     socket.on('new player', function(bundle) {
         if (bundle.id > 0) {
             players.push(bundle);
-            console.log('Players:', players.length);
+            console.log(' * [INFO] New player.', bundle);
         }
         io.emit('update players', players);
     });
 
     socket.on('update players', function(bundles) {
-        console.log('updating!')
+        console.log(' * [INFO] Player update');
         players = bundles;
         io.emit('update players', players);
     })
 
     socket.on('disconnect', function(player_id) {
-        disconnected_player_index = -1;
-        for (var i = 0; i < players.length; i++) {
-            var player = players[i];
-            if (player.id == player_id) {
-                disconnected_player_index = i;
-            }
-        }
-        if (i != -1) {
-            players.splice(i, 1);
-        }
-        console.log('Players:', players);
-        io.emit('new player', players);
+
     });
 });
 

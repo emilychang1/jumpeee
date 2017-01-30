@@ -1,6 +1,6 @@
-var CONSOLE_BUNDLE = {id: 0}
-
 window.onload = function() {
+
+    var CONSOLE_BUNDLE = {id: 0}
 
     /**
      * Game Initialization
@@ -12,8 +12,8 @@ window.onload = function() {
         } else {
             hideController();
             redraw();
-            setInterval(update, 10);
 	    }
+	    setInterval(update, 5);
     }
 
 	var canvas = document.getElementById("canvas");
@@ -39,11 +39,11 @@ window.onload = function() {
 	}
 
 	function update() {
+	    time = new Date().getTime();
         for (var i=0; i<players.length; i++) {
             var player = players[i];
             player.update(time);
         }
-		time = new Date().getTime();
 	}
 
 	/**
@@ -85,7 +85,6 @@ window.onload = function() {
     });
 
     socket.on('update players', function(bundles) {
-        console.log(bundles);
         players = bundlesToPlayers(bundles);
         document.getElementById('no-players').innerHTML = players.length;
     });
@@ -107,7 +106,7 @@ window.onload = function() {
         controller.style = 'display: block';
         canvas.style = 'display: none';
 
-        jumpButton.onclick = function(e) {
+        jumpButton.onmousedown = function(e) {
             var currentTime = new Date().getTime();
             currentPlayer.startJump(currentTime);
             var bundles = playersToBundles(players);

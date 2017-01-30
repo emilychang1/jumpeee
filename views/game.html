@@ -3,8 +3,9 @@
   <head>
     <title>Jumpeee</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.85">
-  </head>
-  <body>
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed" rel="stylesheet">
+    <link href="/styles/style.css" rel="stylesheet">
+
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>var game_hash="{{ game_hash }}";</script>
@@ -12,8 +13,9 @@
     <script src="/main.js"></script>
     <script src="/player.js"></script>
     <script src="/scripts/utils.js"></script>
-    <link href="/styles/style.css" rel="stylesheet">
-    <p class="game_hash">{{ game_hash }} . <span id="no-players">1</span> players</p>
+  </head>
+  <body>
+    <p class="game_hash">{{ game_hash }}</p>
     <div id="controller">
       <p id="jump-button">Jump</p>
     </div>
