@@ -45,7 +45,7 @@ p a {
     .join .input {
         border:none;
         background-color:#eee;
-        border-radius:0.1em;
+        border-radius:0.15em;
         font-size:2em;
         padding:0.25em;
         outline:none;
@@ -63,17 +63,22 @@ p a {
         width:3em;
         text-align:center;
         line-height:3em;
-        font-size:1.25em;
+        font-size:1em;
         margin-left:-1.5em;
         cursor:pointer;
     }
 
+        .join .submit:hover {
+            background-color:#000;
+        }
+
 .button {
-    color:#000;
     text-decoration:none;
     padding:1em 1.5em;
-    border:2px solid #000;
+    background-color:#333;
+    color:#FFF;
     display:inline-block;
+    border-radius:0.15em;
 }
 
     .button:hover {
@@ -86,16 +91,43 @@ p a {
     top:0;
     right:0;
     margin:2em;
-
+    background-color:#eee;
+    border-radius:0.25em;
+    padding:1em;
 }
 
-.jump-button {
-    width:10em;
-    height:10em;
-    color:#000;
+    .game_hash .url_prefix {
+        color:#999;
+    }
+
+    .game_hash .status {
+        background-color:#c90;
+        color:#fff;
+        position:absolute;
+        top:90%;
+        border-radius:0.15em;
+        right:0;
+        padding:1em 2em;
+        display:inline-block;
+        width:35%;
+    }
+
+#console {
+    width:100%;
+    height:100%;
+}
+
+#jump-button {
+    margin-top:3em;
+    width:5em;
+    height:5em;
+    color:#FFF;
+    background-color:#333;
     text-transform:uppercase;
     border-radius:50%;
-    border:0.5em solid #000;
-    line-height:10em;
+    line-height:5em;
     text-align:center;
+    font-size:3em;
+    display:inline-block;
+    float:none;
 }

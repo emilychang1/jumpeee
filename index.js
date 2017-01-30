@@ -7,6 +7,7 @@ var swig = require('swig');
 var bodyParser = require('body-parser');
 
 URL_FORMAT = '/g/{game_hash}'
+BASE_URL = 'j.aaalv.in'
 format.extend(String.prototype, {})
 
 var swig = new swig.Swig();
@@ -33,7 +34,10 @@ app.post('/join', function(req, res) {
 });
 
 app.get(URL_FORMAT.format({game_hash: ':id'}), function(req , res){
-  res.render('game', {game_hash: req.params.id});
+  res.render('game', {
+    game_hash: req.params.id,
+    url_prefix: BASE_URL + URL_FORMAT.format({game_hash: ''})
+  });
 });
 
 io.on('connection', function(socket){

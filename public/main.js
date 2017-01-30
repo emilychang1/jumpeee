@@ -17,6 +17,7 @@ window.onload = function() {
     }
 
 	var canvas = document.getElementById("canvas");
+	var console = document.getElementById("console");
 	var controller = document.getElementById('controller');
 	var jumpButton = document.getElementById('jump-button');
 	canvas.width = document.body.clientWidth;
@@ -99,12 +100,12 @@ window.onload = function() {
 
     function hideController() {
         controller.style = 'display: none';
-        canvas.style = 'display: block';
+        console.style = 'display: block';
     }
 
     function showController() {
         controller.style = 'display: block';
-        canvas.style = 'display: none';
+        console.style = 'display: none';
 
         jumpButton.onmousedown = function(e) {
             var currentTime = new Date().getTime();
