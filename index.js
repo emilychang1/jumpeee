@@ -10,7 +10,7 @@ URL_FORMAT = '/g/{game_hash}'
 format.extend(String.prototype, {})
 
 var swig = new swig.Swig();
-var players = 0;
+var players = [];
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.use(express.static('public'));
@@ -37,16 +37,32 @@ app.get(URL_FORMAT.format({game_hash: ':id'}), function(req , res){
 });
 
 io.on('connection', function(socket){
-    players += 1;
-    console.log('Players:', players);
-    io.emit('new player', players);
 
-    socket.on('chat message', function(msg){
-        io.emit('chat message', msg);
+    socket.on('new player', function(bundle) {
+        if (bundle.id > 0) {
+            players.push(bundle);
+            console.log('Players:', players.length);
+        }
+        io.emit('update players', players);
     });
 
-    socket.on('disconnect', function() {
-        players -= 1;
+    socket.on('update players', function(bundles) {
+        console.log('updating!')
+        players = bundles;
+        io.emit('update players', players);
+    })
+
+    socket.on('disconnect', function(player_id) {
+        disconnected_player_index = -1;
+        for (var i = 0; i < players.length; i++) {
+            var player = players[i];
+            if (player.id == player_id) {
+                disconnected_player_index = i;
+            }
+        }
+        if (i != -1) {
+            players.splice(i, 1);
+        }
         console.log('Players:', players);
         io.emit('new player', players);
     });

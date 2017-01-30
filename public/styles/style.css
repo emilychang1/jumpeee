@@ -5,3 +5,14 @@
     margin:2em;
 
 }
+
+.jump-button {
+    width:10em;
+    height:10em;
+    color:#000;
+    text-transform:uppercase;
+    border-radius:50%;
+    border:0.5em solid #000;
+    line-height:10em;
+    text-align:center;
+}

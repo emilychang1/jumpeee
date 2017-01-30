@@ -8,7 +8,8 @@ JUMP_DURATION = 500;
 JUMP_SCALING = 2;
 
 
-function Player() {
+function Player(id) {
+    self.id = id
     var isJumping = false;
 	var timeFinish;
 	var timeStart;
@@ -48,5 +49,24 @@ function Player() {
 		var height = -((timeFinish - timeStart)/2 + timeStart - time)/100 * 2;
 		console.log(y, y + height);
 		y = y + height;
+	}
+
+	this.to_bundle = function() {
+        return {
+            id: self.id,
+            isJumping: isJumping,
+            timeFinish: timeFinish,
+            timeStart: timeStart,
+            yStart: yStart
+        }
+	}
+
+	this.from_bundle = function(bundle) {
+	    self.id = bundle.id;
+	    isJumping = bundle.isJumping;
+	    timeFinish = bundle.timeFinish;
+	    timeStart = bundle.timeStart;
+	    yStart = bundle.yStart;
+	    return this;
 	}
 }
