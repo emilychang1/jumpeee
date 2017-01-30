@@ -9,27 +9,63 @@
     text-align:center;
 }
 
+p a {
+    color:#c90;
+}
+
 .wrap {
     width:70%;
     float:none;
     display:inline-block;
 }
 
-    .landing .wrap {
+    .sparse .wrap {
         margin-top:7em;
     }
 
-    section h1 {
+    .sparse h1 {
         font-weight:300;
         font-size:5em;
     }
 
-    .landing p {
+    .sparse p {
         margin-top:1em;
     }
 
-    .landing .button {
+    .sparse .button {
         margin-top:1em;
+    }
+
+.join {}
+
+    .join form {
+        margin-top:1em;
+    }
+
+    .join .input {
+        border:none;
+        background-color:#eee;
+        border-radius:0.1em;
+        font-size:2em;
+        padding:0.25em;
+        outline:none;
+        width:5em;
+    }
+
+    .join .submit {
+        -webkit-appearance:none;
+        outline:none;
+        border:none;
+        border-radius:50%;
+        background-color:#333;
+        color:#FFF;
+        height:3em;
+        width:3em;
+        text-align:center;
+        line-height:3em;
+        font-size:1.25em;
+        margin-left:-1.5em;
+        cursor:pointer;
     }
 
 .button {

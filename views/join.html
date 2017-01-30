@@ -8,12 +8,13 @@
     <script src="/scripts/utils.js"></script>
   </head>
   <body>
-    <section class="join wrap-container">
+    <section class="sparse join wrap-container">
       <div class="wrap">
         <h1>Join a Game</h1>
+        <p>Don't have a game yet? <a href="{{ start_url }}">Start a new game.</a></p>
         <form method="post" action="/join">
-            <input placeholder="xxxxx" name="game_hash" />
-            <input type="submit">
+            <input class="input" placeholder="xxxxx" name="game_hash" />
+            <input class="submit" type="submit" value="Go">
         </form>
       </div>
     </section>
