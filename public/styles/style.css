@@ -1,7 +1,133 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family:'Josefin Sans';
+}
+
+.wrap-container {
+    width:100%;
+    text-align:center;
+}
+
+p a {
+    color:#c90;
+}
+
+.wrap {
+    width:70%;
+    float:none;
+    display:inline-block;
+}
+
+    .sparse .wrap {
+        margin-top:7em;
+    }
+
+    .sparse h1 {
+        font-weight:300;
+        font-size:5em;
+    }
+
+    .sparse p {
+        margin-top:1em;
+    }
+
+    .sparse .button {
+        margin-top:1em;
+    }
+
+.join {}
+
+    .join form {
+        margin-top:1em;
+    }
+
+    .join .input {
+        border:none;
+        background-color:#eee;
+        border-radius:0.15em;
+        font-size:2em;
+        padding:0.25em;
+        outline:none;
+        width:5em;
+    }
+
+    .join .submit {
+        -webkit-appearance:none;
+        outline:none;
+        border:none;
+        border-radius:50%;
+        background-color:#333;
+        color:#FFF;
+        height:3em;
+        width:3em;
+        text-align:center;
+        line-height:3em;
+        font-size:1em;
+        margin-left:-1.5em;
+        cursor:pointer;
+    }
+
+        .join .submit:hover {
+            background-color:#000;
+        }
+
+.button {
+    text-decoration:none;
+    padding:1em 1.5em;
+    background-color:#333;
+    color:#FFF;
+    display:inline-block;
+    border-radius:0.15em;
+}
+
+    .button:hover {
+        background-color:#000;
+        color:#FFF;
+    }
+
 .game_hash {
     position:fixed;
     top:0;
     right:0;
     margin:2em;
+    background-color:#eee;
+    border-radius:0.25em;
+    padding:1em;
+}
 
+    .game_hash .url_prefix {
+        color:#999;
+    }
+
+    .game_hash .status {
+        background-color:#c90;
+        color:#fff;
+        position:absolute;
+        top:90%;
+        border-radius:0.15em;
+        right:0;
+        padding:1em 2em;
+        display:inline-block;
+        width:35%;
+    }
+
+#console {
+    width:100%;
+    height:100%;
+}
+
+#jump-button {
+    margin-top:3em;
+    width:5em;
+    height:5em;
+    color:#FFF;
+    background-color:#333;
+    text-transform:uppercase;
+    border-radius:50%;
+    line-height:5em;
+    text-align:center;
+    font-size:3em;
+    display:inline-block;
+    float:none;
 }

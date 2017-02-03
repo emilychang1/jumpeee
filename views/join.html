@@ -8,12 +8,14 @@
     <script src="/scripts/utils.js"></script>
   </head>
   <body>
-    <section class="sparse landing wrap-container">
+    <section class="sparse join wrap-container">
       <div class="wrap">
-        <h1>Jumpeee</h1>
-        <p>A simple platform game that transforms your laptop into a console, your mobile device into a controller.</p>
-        <a class="button" href="{{ start_url }}">Start Game</a>
-        <a class="button" href="/join">Join a Game</a>
+        <h1>Join a Game</h1>
+        <p>Don't have a game yet? <a href="{{ start_url }}">Start a new game.</a></p>
+        <form method="post" action="/join">
+            <input class="input" placeholder="xxxxx" name="game_hash" />
+            <input class="submit" type="submit" value="Go">
+        </form>
       </div>
     </section>
   </body>

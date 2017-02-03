@@ -2,17 +2,30 @@
 <html>
   <head>
     <title>Jumpeee</title>
-  </head>
-  <body>
+    <meta name="viewport" content="width=device-width, initial-scale=0.85">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <link href="/styles/style.css" rel="stylesheet">
+
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>var game_hash="{{ game_hash }}";</script>
     <script src="/levels.js"></script>
     <script src="/main.js"></script>
-    <script src="/ui.js"></script>
     <script src="/player.js"></script>
-    <link href="/styles/style.css" rel="stylesheet">
-    <p class="game_hash">{{ game_hash }} . <span id="no-players">1</span> players</p>
-    <canvas id="canvas"></canvas>
+    <script src="/scripts/utils.js"></script>
+  </head>
+  <body>
+    <section class="game-container wrap-container">
+      <div class="wrap" id="controller">
+        <p id="jump-button">Jump</p>
+      </div>
+      <div id="console">
+        <p class="game_hash">
+          <span class="url_prefix">{{ url_prefix }}</span>{{ game_hash }}
+          <span class="status"><span id="no-players">1</span> player</span>
+        </p>
+        <canvas id="canvas"></canvas>
+      </div>
+    </section>
   </body>
 </html>
