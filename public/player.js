@@ -46,7 +46,7 @@ function Player() {
 			return;
 		}
 		var height = -((timeFinish - timeStart)/2 + timeStart - time)/100 * 2;
-		console.log(y, y + height);
+		//console.log(y, y + height);
 		y = y + height;
 	}
 }

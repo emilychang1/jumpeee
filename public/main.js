@@ -10,9 +10,11 @@ window.onload = function() {
 	var time = 0;
 
 	players.push(currentPlayer);
-	
+	var level = new Level('Level 1', 100, 10, 100, 10, 5);
+
 	var redraw = function(){ 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        level.draw(ctx, level.next());
         for (var i=0; i<players.length; i++) {
             var player = players[i];
             player.draw(ctx);
@@ -26,6 +28,7 @@ window.onload = function() {
             player.update(time);
         }
 		time = time + 10;
+		level.update(time);
 	}
 	
 	window.onkeypress = function(e) {
