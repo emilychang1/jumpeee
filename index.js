@@ -61,8 +61,10 @@ io.on('connection', function(socket){
     });
 });
 
-http.listen(process.env.PORT, function(){
-  console.log('listening on *:', process.env.PORT);
+var port = process.env.PORT || 3000;
+
+http.listen(port, function(){
+  console.log('listening on *:', port);
 });
 
 // http://stackoverflow.com/a/1349426/4855984
