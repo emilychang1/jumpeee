@@ -131,3 +131,15 @@ p a {
     display:inline-block;
     float:none;
 }
+
+footer {
+    margin-top:3em;
+}
+
+footer, footer p {
+    width:100%;
+}
+
+    footer p {
+        text-align:center;
+    }
