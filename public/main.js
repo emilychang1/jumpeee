@@ -6,8 +6,8 @@ window.onload = function() {
      * Game Initialization
      */
 
-    function initialize() {
-        if (mobilecheck()) {
+    function initialize(activate_controller) {
+        if (activate_controller) {
             showController();
         } else {
             hideController();
@@ -17,7 +17,7 @@ window.onload = function() {
     }
 
 	var canvas = document.getElementById("canvas");
-	var console = document.getElementById("console");
+	var game_console = document.getElementById("game_console");
 	var controller = document.getElementById('controller');
 	var jumpButton = document.getElementById('jump-button');
 	canvas.width = document.body.clientWidth;
@@ -29,14 +29,14 @@ window.onload = function() {
 	var players = [];
 
 	players.push(currentPlayer);
-	var level = new Level('Level 1', 100, 10, 100, 10, 5);
+	var level = new Level('Level 1', 100, 10, canvas.height - 10, 10, canvas.width, 0, 75);
 
 	var socket = io();
 	var time = new Date().getTime();
 	
 	var redraw = function(){ 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        level.draw(ctx, level.next());
+        level.draw(ctx);
         for (var i=0; i<players.length; i++) {
             var player = players[i];
             player.draw(ctx);
@@ -83,12 +83,7 @@ window.onload = function() {
      */
 
 	socket.on('connect', function(msg) {
-        if (mobilecheck()) {
-            var player = new Player(currentPlayerId);
-            socket.emit('new player', player.to_bundle());
-        } else {
-            socket.emit('new player', CONSOLE_BUNDLE);
-        }
+        connect(mobilecheck());
     });
 
     socket.on('update players', function(bundles) {
@@ -100,18 +95,27 @@ window.onload = function() {
         socket.emit('disconnect', currentPlayerId);
     });
 
+    function connect(activate_controller) {
+        if (activate_controller) {
+            var player = new Player(currentPlayerId);
+            socket.emit('new player', player.to_bundle());
+        } else {
+            socket.emit('new player', CONSOLE_BUNDLE);
+        }
+    }
+
     /**
      * Game controller setup
      */
 
     function hideController() {
         controller.style = 'display: none';
-        console.style = 'display: block';
+        game_console.style = 'display: block';
     }
 
     function showController() {
         controller.style = 'display: block';
-        console.style = 'display: none';
+        game_console.style = 'display: none';
 
         jumpButton.onmousedown = function(e) {
             var currentTime = new Date().getTime();
@@ -121,5 +125,14 @@ window.onload = function() {
         }
     }
 
-    initialize();
+    window.onkeypress = function(e) {
+        e = e || window.event;
+        if (e.key == 's') { // "s"
+            initialize(true);
+            connect(true);
+            console.log('Activating controller...');
+        }
+    }
+
+    initialize(mobilecheck());
 }

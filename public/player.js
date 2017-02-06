@@ -21,8 +21,8 @@ function Player(id) {
 	this.draw = function(ctx) {
 		ctx.beginPath();
 		ctx.arc(x, y, r, 0, Math.PI*2);
-		ctx.closePath();
 		ctx.fill();
+		ctx.closePath();
     }
 
     this.update = function(time) {
