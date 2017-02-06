@@ -9,7 +9,6 @@
 
 function Level(
         name,
-        length,
         platform_length,
         max_y,
         min_y,
@@ -67,9 +66,6 @@ function Level(
     }
 
     this.next = function() {
-        if (current_length >= length) {
-            throw "Level ended."
-        }
         if (current_platform_length >= this.platform_length) {
             delta = this.max_y - this.min_y
             current_height = Math.random() * delta + this.min_y;
@@ -107,6 +103,21 @@ function Level(
                 platform.update(time);
             }
         }
+    }
+
+    /**
+     * Handles players
+     */
+
+    this.currentPlatform = function(x) {
+        console.log(x);
+        for (var i=0; i<platforms.length; i++) {
+            var platform = platforms[i];
+            if (platform.x <= x && x <= platform.x + block_length) {
+                return platform;
+            }
+        }
+        return -1;
     }
 }
 

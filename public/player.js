@@ -9,23 +9,30 @@ function Player(id) {
 
     var JUMP_DURATION = 500;
     var JUMP_MAX_HEIGHT = 75;
+    var FALL_SPEED = 5;
 
     var isJumping = false;
 	var timeFinish;
 	var timeStart;
 	var yStart;
-	var x = 50;
-	var y = 125;
-	var r = 25;
+	this.x = 50;
+	this.y = 125;
+	this.r = 25;
 
 	this.draw = function(ctx) {
 		ctx.beginPath();
-		ctx.arc(x, y, r, 0, Math.PI*2);
+		ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
 		ctx.fill();
 		ctx.closePath();
     }
 
-    this.update = function(time) {
+    this.update = function(time, currentPlatform) {
+        if (currentPlatform != -1) {
+            this.y = currentPlatform.y - this.r;
+            if (this.y + this.r != currentPlatform.y) {
+                this.y += FALL_SPEED;
+            }
+        }
         if (isJumping == true) {
 			this.updateJump(time);
 		}
@@ -36,14 +43,14 @@ function Player(id) {
 			isJumping = true;
 			timeStart = time;
 			timeFinish = timeStart + JUMP_DURATION;
-			yStart = y;
+			yStart = this.y;
 		}
     }
 
     this.updateJump = function(time) {
 		if(time >= timeFinish) {
 			isJumping = false;
-			y = yStart;
+			this.y = yStart;
 			return;
 		}
 
@@ -51,7 +58,7 @@ function Player(id) {
 		var coeff = (yStart - apex.y) / Math.pow(apex.x, 2);
 		var t = time - timeStart;
 
-		y = coeff * Math.pow(t - apex.x, 2) + apex.y;
+		this.y = coeff * Math.pow(t - apex.x, 2) + apex.y;
 	}
 
 	this.to_bundle = function() {

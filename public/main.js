@@ -29,7 +29,7 @@ window.onload = function() {
 	var players = [];
 
 	players.push(currentPlayer);
-	var level = new Level('Level 1', 100, 10, canvas.height - 10, 10, canvas.width, 0, 75);
+	var level = new Level('Endless', 10, canvas.height - 10, 10, canvas.width, 0, 75);
 
 	var socket = io();
 	var time = new Date().getTime();
@@ -48,7 +48,7 @@ window.onload = function() {
 	    time = new Date().getTime();
         for (var i=0; i<players.length; i++) {
             var player = players[i];
-            player.update(time);
+            player.update(time, level.currentPlatform(player.x));
         }
 		level.update(time);
 	}
