@@ -22,6 +22,7 @@ window.onload = function() {
 	var jumpButton = document.getElementById('jump-button');
 	canvas.width = document.body.clientWidth;
 	canvas.height = document.body.clientHeight;
+	Y = canvas.height / 2;
 
 	var ctx = canvas.getContext("2d");
     var currentPlayerId = new Date().getTime();
@@ -29,7 +30,7 @@ window.onload = function() {
 	var players = [];
 
 	players.push(currentPlayer);
-	var level = new Level('Endless', 10, canvas.height - 10, 10, canvas.width, 0, 75);
+	var level = new Level('Endless', 0.5, canvas.width, 200);
 
 	var socket = io();
 	var time = new Date().getTime();
@@ -48,7 +49,14 @@ window.onload = function() {
 	    time = new Date().getTime();
         for (var i=0; i<players.length; i++) {
             var player = players[i];
-            player.update(time, level.currentPlatform(player.x));
+            var currentObstacle = level.currentObstacle(player.x);
+            player.update(time);
+
+            if (currentObstacle != -1 &&
+                Math.pow(Math.pow(currentObstacle.x - player.x, 2) + Math.pow(currentObstacle.y - player.y, 2), 1/2) - 10 < currentObstacle.radius) {
+                player.out = true;
+                syncPlayerInformation();
+            }
         }
 		level.update(time);
 	}
@@ -89,6 +97,12 @@ window.onload = function() {
     socket.on('update players', function(bundles) {
         players = bundlesToPlayers(bundles);
         document.getElementById('no-players').innerHTML = players.length;
+
+        if (currentPlayer.out) {
+            document.getElementById('jump-button').innerHTML = 'Retry';
+        } else {
+            document.getElementById('jump-button').innerHTML = 'Jump';
+        }
     });
 
     socket.on('disconnect', function() {
@@ -102,6 +116,11 @@ window.onload = function() {
         } else {
             socket.emit('new player', CONSOLE_BUNDLE);
         }
+    }
+
+    function syncPlayerInformation() {
+        var bundles = playersToBundles(players);
+        socket.emit('update players', bundles)
     }
 
     /**
@@ -118,10 +137,14 @@ window.onload = function() {
         game_console.style = 'display: none';
 
         jumpButton.onmousedown = function(e) {
-            var currentTime = new Date().getTime();
-            currentPlayer.startJump(currentTime);
-            var bundles = playersToBundles(players);
-            socket.emit('update players', bundles)
+            if (currentPlayer.out) {
+                currentPlayer.out = false;
+                console.log('Retrying...');
+            } else {
+                var currentTime = new Date().getTime();
+                currentPlayer.startJump(currentTime);
+            }
+            syncPlayerInformation();
         }
     }
 
