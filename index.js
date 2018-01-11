@@ -6,8 +6,8 @@ var format = require('string-format')
 var swig = require('swig');
 var bodyParser = require('body-parser');
 
-const URL_FORMAT = '/g/{game_hash}'
-const BASE_URL = 'j.aaalv.in'
+const URL_FORMAT = '/jumpeee/{game_hash}'
+const BASE_URL = 'eemily.com'
 format.extend(String.prototype, {})
 
 var swig = new swig.Swig();
@@ -17,56 +17,27 @@ app.use(express.static('static'));
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get('/', function(req, res) {
-  // res.render('index', {start_url: URL_FORMAT.format({game_hash: makeid()})});
-  res.render('game', {game_hash: makeid()});
+   res.render('index', {start_url: URL_FORMAT.format({game_hash: makeid()})});
 });
 
-// app.get('/join', function(req, res) {
-//     res.render('join')
-// });
+app.get('/join', function(req, res) {
+    res.render('join')
+});
 
-// app.post('/join', function(req, res) {
-//     res.writeHead(301, {
-//       Location: "http" + (req.socket.encrypted ? "s" : "") + "://" +
-//          req.headers.host + URL_FORMAT.format({game_hash: req.body.game_hash})
-//     });
-//     res.end();
-// });
+app.post('/join', function(req, res) {
+    res.writeHead(301, {
+        Location: "http" + (req.socket.encrypted ? "s" : "") + "://" +
+            req.headers.host + URL_FORMAT.format({game_hash: req.body.game_hash})
+        });
+    res.end();
+});
 
-// app.get(URL_FORMAT.format({game_hash: ':id'}), function(req , res){
-//   res.render('game', {
-//     game_hash: req.params.id,
-//     url_prefix: BASE_URL + URL_FORMAT.format({game_hash: ''})
-//   });
-// });
-
-// io.on('connection', function(socket){
-
-// //     socket.on('new player', function(bundle) {
-// //         if (bundle.id > 0) {
-// //             players.push(bundle);
-// //             console.log(' * [INFO] New player.', bundle);
-// //         }
-// //         io.emit('update players', players);
-// //     });
-
-// //     socket.on('update players', function(bundles) {
-// //         console.log(' * [INFO] Player update');
-// //         players = bundles;
-// //         io.emit('update players', players);
-// //     })
-  
-// //     socket.on('maybe_save_and_load_game', function(bundle) {
-// //       if (!(bundle.id in sessions)) {
-// //         sessions[bundle.id] = bundle;
-// //       }
-// //       io.emit('loaded_game', sessions[bundle.id]);
-// //     });
-
-// //     socket.on('disconnect', function(player_id) {
-
-// //     });
-// });
+app.get(URL_FORMAT.format({game_hash: ':id'}), function(req , res){
+    res.render('game', {
+        game_hash: req.params.id,
+        url_prefix: BASE_URL + URL_FORMAT.format({game_hash: ''})
+    });
+});
 
 var port = process.env.PORT || 3000;
 
@@ -76,14 +47,13 @@ http.listen(port, function(){
 
 // http://stackoverflow.com/a/1349426/4855984
 function makeid() {
-//     var text = "";
-//     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+     var text = "";
+     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-//     for( var i=0; i < 5; i++ )
-//         text += possible.charAt(Math.floor(Math.random() * possible.length));
+     for( var i=0; i < 5; i++ )
+         text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-//     return text;
-  return "abcdef";
+     return text;
 }
 
 var sessions = {};
