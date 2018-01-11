@@ -7,7 +7,26 @@
 html, body {
   height:100%;
 }
-  
+
+html {
+    background-color: rgba(255, 198, 110, 1);
+}
+
+.game-container {
+    background:url('/images/mountains.png');
+    background-size:cover;
+    background-position:bottom;
+}
+
+.sun {
+    position:fixed;
+    top:0;
+    left:0;
+    width:10em;
+    height:10em;
+    margin-left:-2em;
+    margin-top:-2em;
+}
 
 .wrap-container {
     width:100%;

@@ -29,6 +29,13 @@ function Client() {
       session.addNewPlayer(player.id);
     }
   });
+
+  socket.on('newObstacle', function(obstacle) {
+    if (obstacle.sessionId == session.sessionId) {
+        console.log(' * Adding new obstacle.');
+        session.addNewObstacle(obstacle.x, obstacle.y);
+    }
+  });
   
   socket.on('removePlayer', function(player) {
     if (player.sessionId == session.sessionId) {
@@ -56,11 +63,13 @@ function Client() {
   
   socket.on('newHostCreated', function() {
     console.log(' * New host created.');
+    session.isHost = true;
   });
   
   socket.on('allPlayersObstacles', function(allPlayersObstacles) {
     console.log(' * Loaded old host. Received all players and obstacles');
     session.addAllPlayersObstacles(allPlayersObstacles);
+    session.isHost = false;
   });
   
   this.newPlayer = function(sessionId) {

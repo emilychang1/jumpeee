@@ -115,9 +115,10 @@ io.on('connection', function(socket) {
         }
       });
       
-      // TODO: is this even being triggered?
       socket.on('newObstacle', function(bundle) {
         socket.host.obstacles.push(bundle);
+        bundle.sessionId = sessionId;
+        socket.broadcast.emit('newObstacle', bundle);
       });
     }
   });

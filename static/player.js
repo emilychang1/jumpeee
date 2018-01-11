@@ -3,11 +3,14 @@
  * Creates a player, whether controlled by the current player or by another.
  */
 
+var chickImage = new Image();
+chickImage.src = '/images/chick.png';
+
 function Player(x, y, id) {
 
   this.x = x;
   this.y = y;
-  this.r = 25;
+  this.r = 60;
   this.id = id;
   
   
@@ -17,11 +20,8 @@ function Player(x, y, id) {
 
   
   this.draw = function(ctx) {
-		ctx.beginPath();
     // instead of checking isJumping, update this.y in jump
-    ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
-    ctx.fill();
-    ctx.closePath();
+    ctx.drawImage(chickImage, this.x - this.r, this.y - this.r, this.r * 2, this.r * 2);
   }
   
   /**
@@ -50,10 +50,10 @@ function Player(x, y, id) {
   
   this.jump = function() {
     isJumping = true;
-    this.y -= 50;
+    this.y -= (this.r * 2);
     var that = this; // hack (use ES6?)
     setTimeout(function() {
-      that.y += 50;
+      that.y += (that.r * 2);
       isJumping = false;
     }, 1000);
   }

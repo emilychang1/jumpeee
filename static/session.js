@@ -8,6 +8,9 @@ function Session(sessionId) {
   var client = new Client();
   var time = new Date().getTime();
   this.currentPlayerId = -1;
+  var that = this; // hack
+  this.isHost = false;
+  var Y;
   
   var game_console;
 	var controller;
@@ -21,6 +24,7 @@ function Session(sessionId) {
     canvas.width = document.body.clientWidth;
     canvas.height = document.body.clientHeight;
     obstacle_x_start = canvas.width;
+    Y = canvas.height * 3 / 4;
     ctx = canvas.getContext("2d");
     client.register(this);
     
@@ -35,7 +39,7 @@ function Session(sessionId) {
   }
   
   this.addNewPlayer = function(playerId) {
-    players.push(new Player(playerId * 50, canvas.height / 2, playerId));
+    players.push(new Player(playerId * 1.25 * 60, Y, playerId)); // TODO: replace magic number with player radius
   }
   
   this.addNewObstacle = function(obstacle_x, obstacle_y) {
@@ -88,15 +92,17 @@ function Session(sessionId) {
   var obstacle_x_start = 0;
   
   // TODO: discard of obstacles too far away
-  function update(time) { 
+  function update(time) {
 
     // spawn new obstacles
-    if (time - last_obstacle_time > 1000) {
-        last_obstacle_time = time;
-        if (Math.random() < p_obstacles) {
-          var obstacle = new Obstacle(obstacle_x_start, canvas.height / 2);
-          obstacles.push(obstacle);
-          client.newObstacle(obstacle);
+    if (that.isHost) {
+        if (time - last_obstacle_time > 1000) {
+            last_obstacle_time = time;
+            if (Math.random() < p_obstacles) {
+              var obstacle = new Obstacle(obstacle_x_start, Y);
+              obstacles.push(obstacle);
+              client.newObstacle(obstacle);
+            }
         }
     }
     
@@ -126,6 +132,12 @@ function Session(sessionId) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     update(time);
     draw(ctx);
+
+    ctx.beginPath();
+    ctx.rect(0, Y + 50, canvas.width, canvas.height); // TODO: replace magic number with obstacle radius
+    ctx.fillStyle = "rgb(83, 71, 65)";
+    ctx.fill();
+    ctx.closePath();
     requestAnimationFrame(refresh);
   }
   
@@ -146,6 +158,16 @@ function Session(sessionId) {
       jumpButton.onmousedown = function(e) {
         client.jump(that.currentPlayerId);
       }
+  }
+
+  document.addEventListener("keydown", onKeyDown, false);
+
+  function onKeyDown(e) {
+    var keyCode = e.keyCode;
+    if (keyCode == 83) {  // 's'
+      client.newPlayer(sessionId);
+      that.showController();
+    }
   }
 }
 
