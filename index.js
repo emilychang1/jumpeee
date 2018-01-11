@@ -6,60 +6,67 @@ var format = require('string-format')
 var swig = require('swig');
 var bodyParser = require('body-parser');
 
-URL_FORMAT = '/g/{game_hash}'
-BASE_URL = 'j.aaalv.in'
+const URL_FORMAT = '/g/{game_hash}'
+const BASE_URL = 'j.aaalv.in'
 format.extend(String.prototype, {})
 
 var swig = new swig.Swig();
-var players = [];
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
-app.use(express.static('public'));
+app.use(express.static('static'));
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get('/', function(req, res) {
-  res.render('index', {start_url: URL_FORMAT.format({game_hash: makeid()})});
+  // res.render('index', {start_url: URL_FORMAT.format({game_hash: makeid()})});
+  res.render('game', {game_hash: makeid()});
 });
 
-app.get('/join', function(req, res) {
-    res.render('join')
-});
+// app.get('/join', function(req, res) {
+//     res.render('join')
+// });
 
-app.post('/join', function(req, res) {
-    res.writeHead(301, {
-      Location: "http" + (req.socket.encrypted ? "s" : "") + "://" +
-         req.headers.host + URL_FORMAT.format({game_hash: req.body.game_hash})
-    });
-    res.end();
-});
+// app.post('/join', function(req, res) {
+//     res.writeHead(301, {
+//       Location: "http" + (req.socket.encrypted ? "s" : "") + "://" +
+//          req.headers.host + URL_FORMAT.format({game_hash: req.body.game_hash})
+//     });
+//     res.end();
+// });
 
-app.get(URL_FORMAT.format({game_hash: ':id'}), function(req , res){
-  res.render('game', {
-    game_hash: req.params.id,
-    url_prefix: BASE_URL + URL_FORMAT.format({game_hash: ''})
-  });
-});
+// app.get(URL_FORMAT.format({game_hash: ':id'}), function(req , res){
+//   res.render('game', {
+//     game_hash: req.params.id,
+//     url_prefix: BASE_URL + URL_FORMAT.format({game_hash: ''})
+//   });
+// });
 
-io.on('connection', function(socket){
+// io.on('connection', function(socket){
 
-    socket.on('new player', function(bundle) {
-        if (bundle.id > 0) {
-            players.push(bundle);
-            console.log(' * [INFO] New player.', bundle);
-        }
-        io.emit('update players', players);
-    });
+// //     socket.on('new player', function(bundle) {
+// //         if (bundle.id > 0) {
+// //             players.push(bundle);
+// //             console.log(' * [INFO] New player.', bundle);
+// //         }
+// //         io.emit('update players', players);
+// //     });
 
-    socket.on('update players', function(bundles) {
-        console.log(' * [INFO] Player update');
-        players = bundles;
-        io.emit('update players', players);
-    })
+// //     socket.on('update players', function(bundles) {
+// //         console.log(' * [INFO] Player update');
+// //         players = bundles;
+// //         io.emit('update players', players);
+// //     })
+  
+// //     socket.on('maybe_save_and_load_game', function(bundle) {
+// //       if (!(bundle.id in sessions)) {
+// //         sessions[bundle.id] = bundle;
+// //       }
+// //       io.emit('loaded_game', sessions[bundle.id]);
+// //     });
 
-    socket.on('disconnect', function(player_id) {
+// //     socket.on('disconnect', function(player_id) {
 
-    });
-});
+// //     });
+// });
 
 var port = process.env.PORT || 3000;
 
@@ -69,11 +76,95 @@ http.listen(port, function(){
 
 // http://stackoverflow.com/a/1349426/4855984
 function makeid() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+//     var text = "";
+//     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for( var i=0; i < 5; i++ )
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
+//     for( var i=0; i < 5; i++ )
+//         text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-    return text;
+//     return text;
+  return "abcdef";
+}
+
+var sessions = {};
+var maxPlayersPerSession = 4;
+// TODO: use namespaces
+// TODO: emit to hosts only
+io.on('connection', function(socket) {
+  
+  socket.on('newPlayer', function(sessionId) {
+    if (sessionId in sessions) {
+      var session = sessions[sessionId];
+      var playerId = getNewPlayerId(session);
+      if (playerId == -1) {
+        socket.emit('hostFull');
+      } else {
+        socket.player = {
+          id: playerId,
+          sessionId: sessionId
+        };
+        session.players.splice(playerId, 0, socket.player);
+        socket.emit('currentPlayerId', playerId);
+        socket.broadcast.emit('newPlayer', socket.player);
+        
+        socket.on('jump', function(playerId) {
+          var session = sessions[socket.player.sessionId];
+          var player = findPlayerById(socket.player.id, session);  
+          if (player != null) {
+            socket.broadcast.emit('jump', player);
+          }
+        });
+        
+        socket.on('disconnect', function() {
+          var session = sessions[socket.player.sessionId];
+          var players = session.players;
+          var i = players.indexOf(socket.player);
+          players.splice(i, 1);
+          io.emit('removePlayer', socket.player);
+        });
+      }
+    } else {
+      socket.emit('missingHost');
+    }
+  });
+  
+  socket.on('newHost', function(sessionId) {
+    if (sessionId in sessions) {
+      socket.emit('allPlayersObstacles', sessions[sessionId]);
+    } else {
+      socket.host = sessions[sessionId] = {
+        'players': [],
+        'obstacles': []
+      }
+      socket.emit('newHostCreated');
+      
+      // TODO: is this even being triggered?
+      socket.on('newObstacle', function(bundle) {
+        socket.host.obstacles.push(bundle);
+      });
+    }
+  });
+});
+
+function getNewPlayerId(session) {
+  if (session.players.length == 0) {
+    return 1;
+  }
+  for (var i = 0; i < session.players.length; i++) {
+    var player = session.players[i];
+    if (player.id - 1 > i) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function findPlayerById(playerId, session) {
+  for (var i = 0; i < session.players.length; i++) {
+    var player = session.players[i];
+    if (player.id == playerId) {
+      return player;
+    }
+  }
+  return null;
 }
