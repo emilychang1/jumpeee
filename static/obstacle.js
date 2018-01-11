@@ -1,15 +1,15 @@
+var bushImage = new Image();
+bushImage.src = '/images/bush.png';
+
 function Obstacle(x, y) {
   
   this.x = x;
   this.y = y;
-  this.r = 25;
+  this.r = 50;
   this.speed = 5;
   
   this.draw = function(ctx) {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
-    ctx.fill();
-    ctx.closePath();
+    ctx.drawImage(bushImage, this.x - this.r, this.y - this.r, this.r * 2, this.r);
   }
   
   this.update = function(time) {

@@ -39,7 +39,7 @@ function Session(sessionId) {
   }
   
   this.addNewPlayer = function(playerId) {
-    players.push(new Player(playerId * 1.25 * 60, Y, playerId)); // TODO: replace magic number with player radius
+    players.push(new Player(playerId * 1.25 * 60, Y - 50, playerId)); // TODO: replace magic number with player radius
   }
   
   this.addNewObstacle = function(obstacle_x, obstacle_y) {
@@ -134,7 +134,7 @@ function Session(sessionId) {
     draw(ctx);
 
     ctx.beginPath();
-    ctx.rect(0, Y + 50, canvas.width, canvas.height); // TODO: replace magic number with obstacle radius
+    ctx.rect(0, Y, canvas.width, canvas.height); // TODO: replace magic number with obstacle radius
     ctx.fillStyle = "rgb(83, 71, 65)";
     ctx.fill();
     ctx.closePath();
