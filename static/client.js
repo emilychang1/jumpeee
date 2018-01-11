@@ -46,6 +46,14 @@ function Client() {
     }
   });
   
+  socket.on('die', function(player) {
+    if (player.sessionId == session.sessionId
+        && session.currentPlayerId == player.id) {
+      alert('Oops, player died. Try again?');
+      this.newPlayer(session.sessionId);
+    }
+  });
+  
   socket.on('newHostCreated', function() {
     console.log(' * New host created.');
   });
@@ -70,5 +78,9 @@ function Client() {
   
   this.jump = function(playerId) {
     socket.emit('jump', playerId);
+  }
+  
+  this.die = function(playerId) {
+    socket.emit('die', playerId);
   }
 }

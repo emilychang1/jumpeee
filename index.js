@@ -138,6 +138,13 @@ io.on('connection', function(socket) {
       }
       socket.emit('newHostCreated');
       
+      socket.on('die', function(playerId) {
+        var player = findPlayerById(playerId, socket.host);
+        if (player != null) {
+          socket.broadcast.emit('die', player);
+        }
+      });
+      
       // TODO: is this even being triggered?
       socket.on('newObstacle', function(bundle) {
         socket.host.obstacles.push(bundle);

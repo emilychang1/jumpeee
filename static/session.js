@@ -86,6 +86,8 @@ function Session(sessionId) {
   var last_obstacle_time = 0;
   var p_obstacles = 0.5;
   var obstacle_x_start = 0;
+  
+  // TODO: discard of obstacles too far away
   function update(time) { 
 
     // spawn new obstacles
@@ -101,6 +103,16 @@ function Session(sessionId) {
     for (var i=0; i<players.length; i++) {
       var player = players[i];
       player.update(time);
+      
+      for (var j = 0; j < obstacles.length; j++) {
+        var obstacle = obstacles[j];
+        var d = distance(player.x, obstacle.x, player.y, obstacle.y);
+        if (d < player.r + obstacle.r) {
+          client.die(player.id);
+          players.splice(i, 1);
+          break;
+        }
+      }
     }
     
     for (var i=0; i<obstacles.length; i++) {
@@ -135,4 +147,8 @@ function Session(sessionId) {
         client.jump(that.currentPlayerId);
       }
   }
+}
+
+function distance(x1, x2, y1, y2) {
+  return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
 }

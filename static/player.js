@@ -18,11 +18,8 @@ function Player(x, y, id) {
   
   this.draw = function(ctx) {
 		ctx.beginPath();
-    if (isJumping) {
-      ctx.arc(this.x, this.y - 50, this.r, 0, Math.PI*2);
-    } else {
-      ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
-    }
+    // instead of checking isJumping, update this.y in jump
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
     ctx.fill();
     ctx.closePath();
   }
@@ -53,7 +50,10 @@ function Player(x, y, id) {
   
   this.jump = function() {
     isJumping = true;
+    this.y -= 50;
+    var that = this; // hack (use ES6?)
     setTimeout(function() {
+      that.y += 50;
       isJumping = false;
     }, 1000);
   }
