@@ -1,24 +1,49 @@
-<!doctype html>
 <html>
-  <head>
-    <title>Jumpeee</title>
-    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400" rel="stylesheet">
-    <link href="/styles/style.css" rel="stylesheet">
-    <script src="/scripts/index.js"></script>
-    <script src="/scripts/utils.js"></script>
-  </head>
-  <body>
-    <section class="sparse landing wrap-container">
-      <div class="wrap">
-        <h1>Jumpeee</h1>
-        <p>A simple platform game that transforms your laptop into a console, your mobile device into a controller.</p>
-        <p>created by <a href="http://github.com/echang7">Emily Chang</a> and <a href="http://alvinwan.com">Alvin Wan</a></p>
-        <a class="button" href="{{ start_url }}">Start Game</a>
-        <a class="button" href="/join">Join a Game</a>
-      </div>
-    </section>
-    <footer>
-      <p><a href="http://github.com/alvinwan/jumpeee">Github</a></p>
-    </footer>
-  </body>
+    <head>
+        <title>Jumpeee</title>
+        <link href="/styles/landing.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700|Saira+Extra+Condensed:600" rel="stylesheet">
+    </head>
+    <body>
+        <section class="landing">
+            <div class="col-md-1 col-sm-1 col-xs-1"></div>
+            <div class="text col-md-3 col-sm-3 col-xs-10">
+                <img src="images/game.png" class="hidden-sm hidden-md hidden-lg col-xs-12">
+                <span class="bar-container">
+                    <span class="bar"></span>
+                </span>
+                <h1>Jumpeee</h1>
+                <p><a href="{{ start_url }}">New Game</a>
+                    <br/>
+                <a href="/join">Or Join a Game</a>
+                </p>
+                <p class="copy">a simple platformer, with your laptop as a console and your phone as a controller</p>
+                <p class="hidden-sm hidden-md hidden-lg">by <a href="http://eemily.com">Emily Chang</a> and <a href="http://alvinwan.com">Alvin Wan</a></p>
+            </div>
+            <div class="col-md-5 col-sm-5 hidden-xs">
+                <img class="round" src="images/game.png">
+            </div>
+            <div class="col-md-1 col-sm-1"></div>
+            <div class="text col-md-1 col-sm-1 hidden-xs">
+                <h1 class="hidden-xs">01</h1>
+                <p>by <a href="http://eemily.com">Emily Chang</a> and <a href="http://alvinwan.com">Alvin Wan</a></p>
+            </div>
+        </section>
+        <section class="howitworks col-xs-11">
+            <div class="col-md-1 col-sm-1"></div>
+            <div class="col-md-3 col-xs-12 col-sm-3">
+                <img src="images/howitworks.png" class="col-xs-12">
+            </div>
+            <div class="text col-md-8 col-sm-8">
+                <span class="bar-container">
+                    <span class="bar"></span>
+                </span>
+                <h1>How it Works</h1>
+                <p class="copy copy1">Use your laptop as a host and main screen, just as you would use a TV.  Your mobile device is just a controller with buttons. </p>
+                <p class="copy copy2">We use SocketIO to make this happen!</p>
+                <a href="http://github.com/emilychang1/jumpeee">See Code</a>
+            </div>
+        </section>
+    </body>
 </html>

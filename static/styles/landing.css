@@ -1,0 +1,125 @@
+* {
+    font-family:'Quicksand';
+    font-weight:400;
+}
+body h1 {
+    font-family:'Saira Extra Condensed';
+    font-weight:600;
+    text-transform:uppercase;
+    font-size:5em;
+    color:#000;
+}
+html {
+    padding-bottom:10em;
+}
+section {
+    width:100%;
+    float:left;
+}
+body a {
+    border-bottom:2px solid #000;
+    font-weight:700;
+    color:#000;
+    text-transform:uppercase;
+    text-decoration:none;
+    padding-bottom:0.5em;
+    clear:both;
+    float:left;
+    display:inline-block;
+    margin-top:1em;
+}
+body p a {
+    float:none;
+    margin-bottom:1em;
+}
+body a:hover {
+    text-decoration:none;
+
+}
+body a::hover::before {
+    content:"";
+    width:1em;
+    height:1em;
+    background-color:#000;
+}
+.bar-container {
+    width:100%;
+}
+.bar {
+    height:0.5em;
+    display:inline-block;
+    width:5em;
+    background-color:#000;
+    margin-bottom:1em;
+}
+div.text {
+    padding-top:7em;
+}
+.round {
+    width:100%;
+}
+.copy {
+    width:100%;
+    display:block;
+    float:left;
+    font-size:1.25em;
+    line-height:200%;
+    max-width:20em;
+}
+.howitworks img {
+    margin-top:2em;
+}
+.howitworks .copy {
+    float:right;
+    clear:both;
+}
+.howitworks {
+    text-align:right;
+}
+.howitworks a {
+    float:right;
+}
+.landing .text .copy {
+    margin-top:1em;
+}
+p {
+width:100%;
+float:left;
+}
+
+@media (min-width:768px) {
+    .howitworks img  {
+        width:250%;
+        margin-top:20em;
+    }
+    .round {
+        margin-top:12.5em;
+    }
+     .landing .text .copy {
+        margin-top:3em;
+    }
+    .howitworks .copy2 {
+        margin-top:10em;
+    }
+}
+
+@media (min-width: 992px) {
+.howitworks img  {
+        margin-top:10em;
+    }
+    .round {
+        margin-top:10em;
+    }
+    .landing .text .copy {
+        margin-top:8em;
+    }
+    .howitworks .copy2 {
+        margin-top:10em;
+    }
+}
+
+@media (min-width: 1200px) {
+    .round {
+        margin-top:3em;
+    }
+}
