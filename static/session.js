@@ -13,16 +13,26 @@ function Session(sessionId) {
   var Y;
   
   var game_console;
-	var controller;
-	var jumpButton;
+  var controller;
+  var jumpButton;
+  var jumpButtonLabel;
+  var idBox;
+  var imgRetry;
+  var imgJump;
   
   this.start = function() {
+    idBox = document.getElementById('player_id');
     game_console = document.getElementById("game_console");
     controller = document.getElementById('controller');
     jumpButton = document.getElementById('jump-button');
+    jumpButtonLabel = document.getElementById('jump-button-label');
+    imgRetry= document.getElementById('img-retry');
+    imgJump = document.getElementById('img-jump');
     canvas = document.getElementById("canvas");
     canvas.width = document.body.clientWidth;
     canvas.height = document.body.clientHeight;
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
     obstacle_x_start = canvas.width;
     Y = canvas.height * 3 / 4;
     ctx = canvas.getContext("2d");
@@ -39,7 +49,7 @@ function Session(sessionId) {
   }
   
   this.addNewPlayer = function(playerId) {
-    players.push(new Player(playerId * 1.25 * 60, Y - 50, playerId)); // TODO: replace magic number with player radius
+    players.push(new Player(playerId * 120, Y - 50, playerId)); // TODO: replace magic number with player radius
   }
   
   this.addNewObstacle = function(obstacle_x, obstacle_y) {
@@ -73,6 +83,23 @@ function Session(sessionId) {
       var obstacleData = obstacles[i];
       this.addNewObstacle(obstacleData.x, obstacleData.y);
     }
+  }
+
+  this.updateGUIWithPlayerId = function(playerId) {
+    idBox.innerHTML = 'P' + playerId;
+    jumpButton.classList.remove('inactive');
+    jumpButtonLabel.innerHTML = 'Tap to Jump';
+    imgJump.style = 'display: inline-block';
+    imgRetry.style = 'display: none';
+  }
+
+  this.ded = function() {
+    imgRetry.style = 'display: inline-block';
+    imgJump.style = 'display: none';
+    idBox.innerHTML = '?';
+    jumpButton.classList.add('retry');
+    jumpButtonLabel.innerHTML = 'Died! Tap to Retry';
+    this.currentPlayerId = null;
   }
   
   function draw(ctx) {
@@ -156,7 +183,19 @@ function Session(sessionId) {
       var that = this;
 
       jumpButton.onmousedown = function(e) {
-        client.jump(that.currentPlayerId);
+        if (that.currentPlayerId == -1) {
+           // pass - do nothing
+        } else if (that.currentPlayerId == null) {
+            client.newPlayer(that.sessionId);
+            client.currentPlayerId = -1;
+            imgRetry.style = 'display: none';
+            imgJump.style = 'display: inline-block';
+            jumpButtonLabel.innerHTML = 'Syncing with server...';
+            jumpButton.classList.remove('retry');
+            jumpButton.classList.add('inactive');
+        } else {
+            client.jump(that.currentPlayerId);
+        }
       }
   }
 

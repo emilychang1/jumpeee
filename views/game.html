@@ -3,7 +3,7 @@
   <head>
     <title>Jumpeee</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.85">
-    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700|Saira+Extra+Condensed:600" rel="stylesheet">
     <link href="/styles/style.css" rel="stylesheet">
 
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
@@ -19,13 +19,16 @@
   <body>
     <section class="game-container wrap-container">
       <div class="wrap" id="controller">
-        <p class="player_id">?</p>
+        <p id="player_id">?</p>
         <p><span class="text">{{ game_hash }}</span></p>
         <p class="subtext">Session</p>
         <div class="item-container">
-          <div id="jump-button" class="inactive"><img src="/images/jump.svg"></div>
+          <div id="jump-button" class="inactive">
+            <img id="img-jump" src="/images/jump.svg">
+            <img id="img-retry" src="/images/retry.svg">
+          </div>
         </div>
-        <p class="subtext">Tap to Jump</p>
+        <p class="subtext" id="jump-button-label">Syncing with server...</p>
         <div class="item-container">
           <a href="#" class="controller-button">Convert to Host</a>
         </div>

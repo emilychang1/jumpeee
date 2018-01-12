@@ -21,6 +21,18 @@ function Player(x, y, id) {
   
   this.draw = function(ctx) {
     // instead of checking isJumping, update this.y in jump
+    ctx.beginPath();
+    ctx.moveTo(this.x - 12, this.y - this.r - 20);
+    ctx.lineTo(this.x + 12, this.y - this.r - 20);
+    ctx.lineTo(this.x, this.y - this.r - 5);
+    ctx.closePath();
+
+    ctx.fillStyle = 'white';
+    ctx.fill();
+
+    ctx.font="25px Saira Extra Condensed";
+    ctx.fillText('P' + this.id, this.x - 10, this.y - this.r - 30);
+
     ctx.drawImage(chickImage, this.x - this.r, this.y - this.r, this.r * 2, this.r * 2);
   }
   

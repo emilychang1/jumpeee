@@ -6,8 +6,8 @@ var format = require('string-format')
 var swig = require('swig');
 var bodyParser = require('body-parser');
 
-const URL_FORMAT = '/jumpeee/{game_hash}'
-const BASE_URL = 'eemily.com'
+const URL_FORMAT = '/{game_hash}'
+const BASE_URL = 'jump.eemily.com'
 format.extend(String.prototype, {})
 
 var swig = new swig.Swig();
@@ -131,8 +131,11 @@ function getNewPlayerId(session) {
   for (var i = 0; i < session.players.length; i++) {
     var player = session.players[i];
     if (player.id - 1 > i) {
-      return i;
+      return i + 1;
     }
+  }
+  if (session.players.length < maxPlayersPerSession) {
+    return session.players.length + 1;
   }
   return -1;
 }

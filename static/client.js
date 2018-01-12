@@ -21,6 +21,7 @@ function Client() {
   
   socket.on('currentPlayerId', function(playerId) {
     session.currentPlayerId = playerId;
+    session.updateGUIWithPlayerId(playerId);
   });
   
   socket.on('newPlayer', function(player) {
@@ -56,8 +57,7 @@ function Client() {
   socket.on('die', function(player) {
     if (player.sessionId == session.sessionId
         && session.currentPlayerId == player.id) {
-      alert('Oops, player died. Try again?');
-      this.newPlayer(session.sessionId);
+      session.ded();
     }
   });
   

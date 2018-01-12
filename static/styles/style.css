@@ -1,7 +1,7 @@
 * {
     padding: 0;
     margin: 0;
-    font-family:'Josefin Sans';
+    font-family:'Quicksand';
 }
 
 html, body {
@@ -136,7 +136,7 @@ p a {
         width:35%;
     }
 
-#controller .player_id {
+#controller #player_id {
     position:absolute;
     top:0;
     right:0;
@@ -146,6 +146,7 @@ p a {
     background-color:#f15a24;
     width:auto;
     border-radius:0.25em;
+    font-weight:700;
 }
 
 #console {
@@ -202,16 +203,25 @@ span.text {
     cursor:pointer;
 }
 
+#jump-button.retry {
+    background-color:#690;
+}
+
 #jump-button.inactive {
     background-color:#666;
     opacity:0.5;
-    cursor:none;
 }
 
 #jump-button img {
     display:inline-block;
     float:none;
+}
+#img-jump {
     width:1.5em;
+}
+#img-retry {
+    width:3em;
+    display:none;
 }
 
 .controller-button {
@@ -223,6 +233,7 @@ span.text {
     float:none;
     border-radius:2em;
     margin-top:2em;
+    font-weight:700;
     font-size:0.9em;
 }
 
@@ -230,6 +241,9 @@ p a:not(.button) {
     color:#666;
     border-bottom:2px solid #666;
     margin-top:2em;
+    text-transform:uppercase;
+    font-weight:700;
+    padding-bottom:0.5em;
     text-decoration:none;
     display:inline-block;
     float:none;
