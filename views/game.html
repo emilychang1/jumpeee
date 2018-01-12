@@ -18,8 +18,18 @@
   </head>
   <body>
     <section class="game-container wrap-container">
-       <div class="wrap" id="controller">
-        <p id="jump-button">Jump</p>
+      <div class="wrap" id="controller">
+        <p class="player_id">?</p>
+        <p><span class="text">{{ game_hash }}</span></p>
+        <p class="subtext">Session</p>
+        <div class="item-container">
+          <div id="jump-button" class="inactive"><img src="/images/jump.svg"></div>
+        </div>
+        <p class="subtext">Tap to Jump</p>
+        <div class="item-container">
+          <a href="#" class="controller-button">Convert to Host</a>
+        </div>
+        <p><a href="/join">Join other game</a></p>
       </div>
       <div id="game_console">
         <img src="/images/sun.png" class="sun">
