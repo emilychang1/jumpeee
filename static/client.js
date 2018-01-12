@@ -60,12 +60,12 @@ function Client() {
       session.ded();
     }
   });
-  
+
   socket.on('newHostCreated', function() {
     console.log(' * New host created.');
     session.isHost = true;
   });
-  
+
   socket.on('allPlayersObstacles', function(allPlayersObstacles) {
     console.log(' * Loaded old host. Received all players and obstacles');
     session.addAllPlayersObstacles(allPlayersObstacles);

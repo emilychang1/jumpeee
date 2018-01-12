@@ -111,6 +111,8 @@ io.on('connection', function(socket) {
       socket.on('die', function(playerId) {
         var player = findPlayerById(playerId, socket.host);
         if (player != null) {
+          var i = socket.host.players.indexOf(player);
+          socket.host.players.splice(i, 1);
           socket.broadcast.emit('die', player);
         }
       });
@@ -119,6 +121,10 @@ io.on('connection', function(socket) {
         socket.host.obstacles.push(bundle);
         bundle.sessionId = sessionId;
         socket.broadcast.emit('newObstacle', bundle);
+      });
+
+      socket.on('disconnect', function() {
+        delete sessions[sessionId];
       });
     }
   });

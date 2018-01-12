@@ -31,8 +31,6 @@ function Session(sessionId) {
     canvas = document.getElementById("canvas");
     canvas.width = document.body.clientWidth;
     canvas.height = document.body.clientHeight;
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
     obstacle_x_start = canvas.width;
     Y = canvas.height * 3 / 4;
     ctx = canvas.getContext("2d");
@@ -123,7 +121,7 @@ function Session(sessionId) {
 
     // spawn new obstacles
     if (that.isHost) {
-        if (time - last_obstacle_time > 1000) {
+        if (time - last_obstacle_time > 1500) {
             last_obstacle_time = time;
             if (Math.random() < p_obstacles) {
               var obstacle = new Obstacle(obstacle_x_start, Y);

@@ -61,13 +61,16 @@ function Player(x, y, id) {
   }
   
   this.jump = function() {
+    if (isJumping) {
+      return;
+    }
     isJumping = true;
     this.y -= (this.r * 2);
     var that = this; // hack (use ES6?)
     setTimeout(function() {
       that.y += (that.r * 2);
       isJumping = false;
-    }, 1000);
+    }, 1250);
   }
   
 
