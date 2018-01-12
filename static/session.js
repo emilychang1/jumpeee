@@ -19,6 +19,8 @@ function Session(sessionId) {
   var idBox;
   var imgRetry;
   var imgJump;
+  var noPlayers;
+  var englishPlayers;
   
   this.start = function() {
     idBox = document.getElementById('player_id');
@@ -28,6 +30,8 @@ function Session(sessionId) {
     jumpButtonLabel = document.getElementById('jump-button-label');
     imgRetry= document.getElementById('img-retry');
     imgJump = document.getElementById('img-jump');
+    noPlayers = document.getElementById('no-players');
+    englishPlayers = document.getElementById('english-players');
     canvas = document.getElementById("canvas");
     canvas.width = document.body.clientWidth;
     canvas.height = document.body.clientHeight;
@@ -47,7 +51,8 @@ function Session(sessionId) {
   }
   
   this.addNewPlayer = function(playerId) {
-    players.push(new Player(playerId * 120, Y - 50, playerId)); // TODO: replace magic number with player radius
+    players.push(new Player(playerId * 150, Y - 50, playerId)); // TODO: replace magic number with player radius
+    updateGUINoPlayers(players.length);
   }
   
   this.addNewObstacle = function(obstacle_x, obstacle_y) {
@@ -65,7 +70,10 @@ function Session(sessionId) {
   }
   
   this.removePlayer = function(playerId) {
-    players.splice(playerId - 1, 1);
+    var player = getPlayerById(playerId);
+    var i = players.indexOf(player);
+    players.splice(i, 1);
+    updateGUINoPlayers(players.length);
   }
   
   this.addAllPlayersObstacles = function(allPlayersObstacles) {
@@ -76,11 +84,17 @@ function Session(sessionId) {
       var playerId = players[i].id;
       this.addNewPlayer(playerId);
     }
+    updateGUINoPlayers(players.length);
     
     for (var i = 0; i < obstacles.length; i++) {
       var obstacleData = obstacles[i];
       this.addNewObstacle(obstacleData.x, obstacleData.y);
     }
+  }
+
+  function updateGUINoPlayers(no) {
+    noPlayers.innerHTML = no;
+    englishPlayers.innerHTML = (no == 1) ? 'player' : 'players';
   }
 
   this.updateGUIWithPlayerId = function(playerId) {
@@ -141,6 +155,7 @@ function Session(sessionId) {
         if (d < player.r + obstacle.r) {
           client.die(player.id);
           players.splice(i, 1);
+          updateGUINoPlayers(players.length);
           break;
         }
       }

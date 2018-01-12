@@ -115,25 +115,31 @@ p a {
     top:0;
     right:0;
     margin:2em;
-    background-color:#eee;
-    border-radius:0.25em;
-    padding:1em;
 }
-
+    .game_hash .token {
+        background-color:#eee;
+        border-radius:0.25em;
+        padding:1em;
+        float:right;
+    }
     .game_hash .url_prefix {
         color:#999;
     }
 
     .game_hash .status {
-        background-color:#c90;
+        background-color:#f15a24;
         color:#fff;
-        position:absolute;
-        top:90%;
+        float:right;
         border-radius:0.15em;
-        right:0;
         padding:1em 2em;
         display:inline-block;
-        width:35%;
+    }
+    .game_hash .status a {
+        margin:0;
+        border-bottom:none;
+        padding:0;
+        color:#FFF;
+        opacity:0.5;
     }
 
 #controller #player_id {

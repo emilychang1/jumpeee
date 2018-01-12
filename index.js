@@ -21,7 +21,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/join', function(req, res) {
-    res.render('join')
+    res.render('join', {start_url: URL_FORMAT.format({game_hash: makeid()})})
 });
 
 app.post('/join', function(req, res) {

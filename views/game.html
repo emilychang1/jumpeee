@@ -37,8 +37,8 @@
       <div id="game_console">
         <img src="/images/sun.png" class="sun">
         <p class="game_hash">
-          <span class="url_prefix">{{ url_prefix }}</span>{{ game_hash }}
-          <span class="status"><span id="no-players">1</span> player</span>
+          <span class="token"><span class="url_prefix">{{ url_prefix }}</span>{{ game_hash }}</span>
+          <span class="status"><span id="no-players">0</span> <span id="english-players">players</span> <a href="#" onclick="javascript: alert('Have your friends access this URL, from their mobile devices, to start playing! This laptop is your \'TV\', where everyone can see the game.');">[?]</a></span>
         </p>
         <canvas id="canvas"></canvas>
       </div>
