@@ -52,6 +52,10 @@ body a::hover::before {
     background-color:#000;
     margin-bottom:1em;
 }
+section p a.important {
+    color:#f15a24;
+    border-bottom:2px solid #f15a24;
+}
 div.text {
     padding-top:7em;
 }
@@ -121,7 +125,7 @@ form input {
         margin-top:10em;
     }
     .landing .text p + .copy {
-        margin-top:8em;
+        margin-top:5em;
     }
     .howitworks .copy2 {
         margin-top:10em;
@@ -129,6 +133,9 @@ form input {
 }
 
 @media (min-width: 1200px) {
+    .landing .text p + .copy {
+        margin-top:6em;
+    }
     .round {
         margin-top:3em;
     }

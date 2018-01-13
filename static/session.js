@@ -11,6 +11,7 @@ function Session(sessionId) {
   var that = this; // hack
   this.isHost = false;
   var Y;
+  var paused = false;
   
   var game_console;
   var controller;
@@ -45,7 +46,6 @@ function Session(sessionId) {
       this.showController();
     } else {
       client.newHost(sessionId);
-      refresh();
       this.hideController();
     }
   }
@@ -125,6 +125,18 @@ function Session(sessionId) {
       obstacle.draw(ctx);
     }
   }
+
+  function startGame() {
+    paused = false;
+    refresh();
+    document.getElementById('url').classList.add('inactive');
+    document.getElementById('start-game').innerHTML = 'Resume Game';
+  }
+
+  function pauseGame() {
+    paused = true;
+    document.getElementById('url').classList.remove('inactive');
+  }
   
   var last_obstacle_time = 0;
   var p_obstacles = 0.5;
@@ -178,7 +190,9 @@ function Session(sessionId) {
     ctx.fillStyle = "rgb(83, 71, 65)";
     ctx.fill();
     ctx.closePath();
-    requestAnimationFrame(refresh);
+    if (!paused) {
+        requestAnimationFrame(refresh);
+    }
   }
   
   /**
@@ -213,6 +227,8 @@ function Session(sessionId) {
   }
 
   document.addEventListener("keydown", onKeyDown, false);
+  document.getElementById('start-game').addEventListener('click', startGame, false);
+  document.getElementById('help').addEventListener('click', pauseGame, false);
 
   function onKeyDown(e) {
     var keyCode = e.keyCode;

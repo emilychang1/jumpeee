@@ -4,6 +4,7 @@
     <title>Jumpeee</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.85">
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700|Saira+Extra+Condensed:600" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href="/styles/style.css" rel="stylesheet">
 
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
@@ -30,15 +31,27 @@
         </div>
         <p class="subtext" id="jump-button-label">Syncing with server...</p>
         <div class="item-container">
-          <a href="#" class="controller-button">Convert to Host</a>
+          <a href="#" class="button">Convert to Host</a>
         </div>
         <p><a href="/join">Join other game</a></p>
       </div>
       <div id="game_console">
+        <div id="url">
+          <div class="col-md-1"></div>
+          <div class="col-md-6">
+            <span class="bar-container">
+                <span class="bar"></span>
+            </span>
+            <h1>Jumpeee</h1>
+            <p class="url-subtitle">Access this URL on your phone to start playing. This host computer is your "TV," where everyone can see the game.</p>
+            <h2 class="url-large"><span class="url_prefix">{{ url_prefix }}</span>{{ game_hash }}</h2>
+            <p><a href="#" id="start-game" class="button">Start Game</a></p>
+          </div>
+        </div>
         <img src="/images/sun.png" class="sun">
         <p class="game_hash">
           <span class="token"><span class="url_prefix">{{ url_prefix }}</span>{{ game_hash }}</span>
-          <span class="status"><span id="no-players">0</span> <span id="english-players">players</span> <a href="#" onclick="javascript: alert('Have your friends access this URL, from their mobile devices, to start playing! This laptop is your \'TV\', where everyone can see the game.');">[?]</a></span>
+          <span class="status"><span id="no-players">0</span> <span id="english-players">players</span> <a href="#" id="help">[?]</a></span>
         </p>
         <canvas id="canvas"></canvas>
       </div>
