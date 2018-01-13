@@ -209,7 +209,7 @@ span.text {
     width:10em;
     height:10em;
     text-align:center;
-    line-height:12.5em;
+    line-height: 10em;
     margin-top:3em;
     cursor:pointer;
 }
@@ -279,9 +279,10 @@ p a:not(.button) {
     width:100%;
     z-index:20;
     overflow:scroll;
+    transition: 0.5s ease;
 }
 
-#url *:first-child {
+#url > div > *:first-child {
     margin-top:3em;
 }
 
@@ -314,6 +315,57 @@ p a:not(.button) {
 #url .button {
     margin-top:1em;
     font-size:0.8em;
+    margin-bottom:3em;
+}
+
+#url #lobby-no-players {
+    color:#999;
+    font-size:2em;
+}
+
+#url #lobby-players {
+    padding-top:0.5 em;
+}
+
+#url li {
+    list-style:none;
+    text-align:left;
+    font-size:1.5em;
+    font-weight:700;
+    color:#666;
+    margin-top:0.5em;
+}
+
+#url li .status-dot {
+    width:0.5em;
+    height:0.5em;
+    line-height:1em;
+    margin-right:0.5em;
+    border-radius:50%;
+    display:inline-block;
+    float:none
+}
+
+#url li .status {
+    font-weight:700;
+    text-transform:uppercase;
+    font-size:0.8em;
+}
+
+.bg-green {
+    background-color:#690;
+}
+
+.green {
+    color:#690;
+}
+
+.bg-red {
+    background-color:#cc0900;
+}
+
+.red {
+    color:#cc0900;
 }
 
 footer {

@@ -12,12 +12,27 @@ function Player(x, y, id) {
   this.y = y;
   this.r = 60;
   this.id = id;
-  
+  this.ready = true;  // TODO: change me when player has "ready" confirmation
+  this.nickname = 'P' + id;  // not currently set by player
   
   var isJumping = false;
   var yStart = this.y;
   var jumpForce;
+  var invincible = false; // TODO: change me when player has "ready" confirmation
 
+  this.isInvincible = function() {
+    return !this.ready || invincible;
+  }
+
+  this.makeInvincible = function() {
+    invincible = true;
+  }
+
+  // not guaranteed to make not invicible. If the player is not ready, the
+  // player will still be invicible;
+  this.unInvincible = function() {
+    invincible = false;
+  }
   
   this.draw = function(ctx) {
     // instead of checking isJumping, update this.y in jump
@@ -33,7 +48,11 @@ function Player(x, y, id) {
     ctx.font="25px Saira Extra Condensed";
     ctx.fillText('P' + this.id, this.x - 10, this.y - this.r - 30);
 
+    if (this.isInvincible()) {
+        ctx.globalAlpha = 0.5;
+    }
     ctx.drawImage(chickImage, this.x - this.r, this.y - this.r, this.r * 2, this.r * 2);
+    ctx.globalAlpha = 1;
   }
   
   /**

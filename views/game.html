@@ -31,7 +31,7 @@
         </div>
         <p class="subtext" id="jump-button-label">Syncing with server...</p>
         <div class="item-container">
-          <a href="#" class="button">Convert to Host</a>
+          <a href="#" class="button">Convert to Display</a>
         </div>
         <p><a href="/join">Join other game</a></p>
       </div>
@@ -46,6 +46,14 @@
             <p class="url-subtitle">Access this URL on your phone to start playing. This host computer is your "TV," where everyone can see the game.</p>
             <h2 class="url-large"><span class="url_prefix">{{ url_prefix }}</span>{{ game_hash }}</h2>
             <p><a href="#" id="start-game" class="button">Start Game</a></p>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-4">
+            <p id="lobby-no-players">0 players</p>
+            <ul id="lobby-players">
+              <!--<li><span class="status-dot bg-green"></span>P1 <span class="status green">Ready</span></li>-->
+              <!--<li><span class="status-dot bg-red"></span>P2 <span class="status red">Not Ready</span></li>-->
+            </ul>
           </div>
         </div>
         <img src="/images/sun.png" class="sun">

@@ -21,6 +21,7 @@ function Session(sessionId) {
   var imgRetry;
   var imgJump;
   var noPlayers;
+  var noLobbyPlayers;
   var englishPlayers;
   
   this.start = function() {
@@ -32,6 +33,7 @@ function Session(sessionId) {
     imgRetry= document.getElementById('img-retry');
     imgJump = document.getElementById('img-jump');
     noPlayers = document.getElementById('no-players');
+    noLobbyPlayers = document.getElementById('lobby-no-players')
     englishPlayers = document.getElementById('english-players');
     canvas = document.getElementById("canvas");
     canvas.width = document.body.clientWidth;
@@ -46,6 +48,8 @@ function Session(sessionId) {
       this.showController();
     } else {
       client.newHost(sessionId);
+      updateGUILobbyWithPlayers();
+      updateGUINoPlayers(players.length);
       this.hideController();
     }
   }
@@ -53,6 +57,7 @@ function Session(sessionId) {
   this.addNewPlayer = function(playerId) {
     players.push(new Player(playerId * 150, Y - 50, playerId)); // TODO: replace magic number with player radius
     updateGUINoPlayers(players.length);
+    updateGUILobbyWithPlayers();
   }
   
   this.addNewObstacle = function(obstacle_x, obstacle_y) {
@@ -74,6 +79,7 @@ function Session(sessionId) {
     var i = players.indexOf(player);
     players.splice(i, 1);
     updateGUINoPlayers(players.length);
+    updateGUILobbyWithPlayers();
   }
   
   this.addAllPlayersObstacles = function(allPlayersObstacles) {
@@ -84,6 +90,7 @@ function Session(sessionId) {
       var playerId = players[i].id;
       this.addNewPlayer(playerId);
     }
+    updateGUILobbyWithPlayers();
     updateGUINoPlayers(players.length);
     
     for (var i = 0; i < obstacles.length; i++) {
@@ -93,8 +100,10 @@ function Session(sessionId) {
   }
 
   function updateGUINoPlayers(no) {
+    var english = (no == 1) ? 'player' : 'players';
     noPlayers.innerHTML = no;
-    englishPlayers.innerHTML = (no == 1) ? 'player' : 'players';
+    englishPlayers.innerHTML = english;
+    noLobbyPlayers.innerHTML = no + ' ' + english;
   }
 
   this.updateGUIWithPlayerId = function(playerId) {
@@ -103,6 +112,19 @@ function Session(sessionId) {
     jumpButtonLabel.innerHTML = 'Tap to Jump';
     imgJump.style = 'display: inline-block';
     imgRetry.style = 'display: none';
+  }
+
+  function updateGUILobbyWithPlayers() {
+    var lobbyPlayersHTML = '';
+    for (var i = 0;i < players.length; i++) {
+        var player = players[i];
+        var color = player.ready ? 'green' : 'red';
+        var status = player.ready ? 'Ready' : 'Not Ready';
+        lobbyPlayersHTML += '<li><span class="status-dot bg-' + color +
+            '"></span>' + player.nickname + ' <span class="status ' + color +
+            '">' + status + '</span></li>';
+    }
+    document.getElementById('lobby-players').innerHTML = lobbyPlayersHTML;
   }
 
   this.ded = function() {
@@ -134,6 +156,7 @@ function Session(sessionId) {
   }
 
   function pauseGame() {
+    updateGUILobbyWithPlayers();
     paused = true;
     document.getElementById('url').classList.remove('inactive');
   }
@@ -160,7 +183,10 @@ function Session(sessionId) {
     for (var i=0; i<players.length; i++) {
       var player = players[i];
       player.update(time);
-      
+
+      if (player.isInvincible()) {
+        continue;
+      }
       for (var j = 0; j < obstacles.length; j++) {
         var obstacle = obstacles[j];
         var d = distance(player.x, obstacle.x, player.y, obstacle.y);
@@ -233,8 +259,12 @@ function Session(sessionId) {
   function onKeyDown(e) {
     var keyCode = e.keyCode;
     if (keyCode == 83) {  // 's'
-      client.newPlayer(sessionId);
-      that.showController();
+      if (!that.isHost) {
+        client.newPlayer(sessionId);
+        that.showController();
+      } else {
+        alert('You cannot convert the original host to a player! Open a new browser to convert it to a player.');
+      }
     }
   }
 }
