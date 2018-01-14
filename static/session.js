@@ -75,11 +75,26 @@ function Session(sessionId) {
   }
   
   this.removePlayer = function(playerId) {
-    var player = getPlayerById(playerId);
+    var player = that.getPlayerById(playerId);
     var i = players.indexOf(player);
     players.splice(i, 1);
     updateGUINoPlayers(players.length);
     updateGUILobbyWithPlayers();
+  }
+
+  this.playerReady = function(){ 
+    if (that.currentPlayerId == -1) {
+          // pass - do nothing
+        } else if (that.currentPlayerId == null) {
+          client.currentPlayerId = -1;
+        } else {
+          client.playerReady(that.currentPlayerId);
+        }
+  }
+
+  this.removeInvincibility = function(playerId){
+    var player = that.getPlayerById(playerId);
+    player.ready = true;
   }
   
   this.addAllPlayersObstacles = function(allPlayersObstacles) {
@@ -255,6 +270,7 @@ function Session(sessionId) {
   document.addEventListener("keydown", onKeyDown, false);
   document.getElementById('start-game').addEventListener('click', startGame, false);
   document.getElementById('help').addEventListener('click', pauseGame, false);
+  document.getElementById('ready').addEventListener('click', this.playerReady, false);
 
   function onKeyDown(e) {
     var keyCode = e.keyCode;

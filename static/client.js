@@ -31,6 +31,13 @@ function Client() {
     }
   });
 
+  socket.on('ready', function(player) {
+    if (player.sessionId == session.sessionId) {
+      console.log(' * Make player ready.');
+      session.removeInvincibility(player.id);
+    }
+  })
+
   socket.on('newObstacle', function(obstacle) {
     if (obstacle.sessionId == session.sessionId) {
         console.log(' * Adding new obstacle.');
@@ -75,6 +82,10 @@ function Client() {
   this.newPlayer = function(sessionId) {
     console.log(' * Placing request for new player / sessionId: ' + sessionId);
     socket.emit('newPlayer', sessionId);
+  }
+
+  this.playerReady = function(playerId) {
+    socket.emit('playerReady', playerId);
   }
   
   this.newHost = function(sessionId) {

@@ -12,13 +12,13 @@ function Player(x, y, id) {
   this.y = y;
   this.r = 60;
   this.id = id;
-  this.ready = true;  // TODO: change me when player has "ready" confirmation
+  this.ready = false; 
   this.nickname = 'P' + id;  // not currently set by player
   
   var isJumping = false;
   var yStart = this.y;
   var jumpForce;
-  var invincible = false; // TODO: change me when player has "ready" confirmation
+  var invincible = false; 
 
   this.isInvincible = function() {
     return !this.ready || invincible;

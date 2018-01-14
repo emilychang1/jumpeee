@@ -92,6 +92,14 @@ io.on('connection', function(socket) {
           players.splice(i, 1);
           io.emit('removePlayer', socket.player);
         });
+
+        socket.on('playerReady', function(playerId) {
+          var session = sessions[socket.player.sessionId];
+          var player = findPlayerById(playerId, session);
+          if (player != null) {
+            socket.broadcast.emit('ready', player);
+          }
+        });
       }
     } else {
       socket.emit('missingHost');
